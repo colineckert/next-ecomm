@@ -14,7 +14,7 @@ model Product {
   id                     String                 @id @default(uuid())
   name                   String
   priceInCents           Int
-  filepath               String
+  filePath               String
   imagePath              String
   description            String
   isAvailableForPurchase Boolean                @default(true)
@@ -50,4 +50,3 @@ model DownloadVerification {
   productId String
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
-
