@@ -4,6 +4,7 @@ import db from "@/db/db";
 import { z } from "zod";
 import fs from "fs/promises";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const fileSchema = z.instanceof(File, { message: "Required" });
 const imageSchema = fileSchema.refine(
@@ -31,13 +32,13 @@ export async function addProduct(prevState: unknown, formData: FormData) {
   await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()));
 
   await fs.mkdir("public/products", { recursive: true });
-  const imagePath = `products/${crypto.randomUUID()}-${data.image.name}`;
+  const imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`;
   await fs.writeFile(
-    `public/${imagePath}`,
+    `public${imagePath}`,
     Buffer.from(await data.image.arrayBuffer()),
   );
 
-  db.product.create({
+  await db.product.create({
     data: {
       isAvailableForPurchase: false,
       name: data.name,
@@ -47,6 +48,9 @@ export async function addProduct(prevState: unknown, formData: FormData) {
       imagePath,
     },
   });
+
+  revalidatePath("/");
+  revalidatePath("/products");
 
   redirect("/admin/products");
 }

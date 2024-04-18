@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { PageHeader } from "../_components/PageHeader";
+import db from "@/db/db";
 
 export default function AdminProductsPage() {
   return (
@@ -23,7 +24,26 @@ export default function AdminProductsPage() {
   );
 }
 
-function ProductsTable() {
+async function ProductsTable() {
+  const products = await db.product.findMany({
+    select: {
+      id: true,
+      name: true,
+      priceInCents: true,
+      isAvailableForPurchase: true,
+      _count: {
+        select: { orders: true },
+      },
+    },
+    orderBy: { name: "asc" },
+  });
+
+  console.log(products);
+
+  if (products.length === 0) {
+    return <p>No products found.</p>;
+  }
+
   return (
     <Table>
       <TableHeader>
