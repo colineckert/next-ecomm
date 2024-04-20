@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import Link from "next/link";
-import { PageHeader } from "../_components/PageHeader";
-import db from "@/db/db";
+} from '@/components/ui/table';
+import Link from 'next/link';
+import { PageHeader } from '../_components/PageHeader';
+import db from '@/db/db';
 
 export default function AdminProductsPage() {
   return (
@@ -35,10 +35,10 @@ async function ProductsTable() {
         select: { orders: true },
       },
     },
-    orderBy: { name: "asc" },
+    orderBy: { name: 'asc' },
   });
 
-  console.log(products);
+  console.log({ products });
 
   if (products.length === 0) {
     return <p>No products found.</p>;
