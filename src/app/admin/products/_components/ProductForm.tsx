@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { formatCurrency } from '@/lib/formatters';
-import { useState } from 'react';
-import { addProduct, updateProduct } from '../../_actions/products';
-import { useFormState, useFormStatus } from 'react-dom';
-import { Product } from '@prisma/client';
-import Image from 'next/image';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { formatCurrency } from "@/lib/formatters";
+import { useState } from "react";
+import { addProduct, updateProduct } from "../../_actions/products";
+import { useFormState, useFormStatus } from "react-dom";
+import { type Product } from "@prisma/client";
+import Image from "next/image";
 
 export function ProductForm({ product }: { product?: Product | null }) {
   const [error, action] = useFormState(
     product == null ? addProduct : updateProduct.bind(null, product.id),
-    {}
+    {},
   );
   const [priceInCents, setPriceInCents] = useState<number | undefined>(
-    product?.priceInCents
+    product?.priceInCents,
   );
 
   return (
@@ -29,7 +29,7 @@ export function ProductForm({ product }: { product?: Product | null }) {
           id="name"
           name="name"
           required
-          defaultValue={product?.name || ''}
+          defaultValue={product?.name || ""}
         />
         {error.name && <div className="text-destructive">{error.name}</div>}
       </div>
@@ -93,7 +93,7 @@ function SubmitButton() {
 
   return (
     <Button type="submit" disabled={pending}>
-      {pending ? 'Saving...' : 'Save'}
+      {pending ? "Saving..." : "Save"}
     </Button>
   );
 }
