@@ -8,7 +8,7 @@ import { formatCurrency } from "@/lib/formatters";
 import { useState } from "react";
 import { addProduct, updateProduct } from "../../_actions/products";
 import { useFormState, useFormStatus } from "react-dom";
-import { type Product } from "@prisma/client";
+import type { Product } from "@prisma/client";
 import Image from "next/image";
 
 export function ProductForm({ product }: { product?: Product | null }) {
